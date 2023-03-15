@@ -185,7 +185,32 @@
     </ul>
 
     <script>
+        const timeNodes = Array.from(document.querySelectorAll('[data-time]'));
+        //список узлов (ниже), надо превратить в массив в строке выше:
+        const seconds = timeNodes
+            .map(node => node.dataset.time)
+            .map(timeCode => {
+                //ниже мы получаем секунды в виде строки
+                //что бы перевести в числа используем ф parseFloat
+                const [mins, secs] = timeCode.split(':').map(parseFloat);
+                return (mins * 60) + secs;
+                console.log(mins, secs);
+            })
+            //складываем все секунды в одно число
+            .reduce((total, seconds) => total + seconds);
 
+        let secondsLeft = seconds;
+        const hours = Math.floor(secondsLeft / 3600);
+        //берем остаток от 4 часов виде секунд:
+        secondsLeft = secondsLeft % 3600;
+
+        //на основе остатка считаем минуты:
+        const mins = Math.floor(secondsLeft / 60);
+        //остается остаток от минут в виде секунд:
+        secondsLeft = secondsLeft % 60;
+
+        //всего часов минут секунд
+        console.log(hours, mins, secondsLeft);
     </script>
 
 </body>
